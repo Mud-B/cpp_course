@@ -2,7 +2,7 @@
  * @Author: Chihow Yao
  * @Date: 2022-08-29 22:12:11
  * @LastEditors: Chihow Yao yqh994412@gmail.com
- * @LastEditTime: 2022-09-02 16:55:07
+ * @LastEditTime: 2022-09-02 20:57:38
  * @Description:
  */
 
@@ -50,19 +50,28 @@ void write_file(const std::string& filenmae, std::string* text){
     std::cout << filenmae << " contents:\n" << *text << "\n";
 }
 
-void decrypt_txt(std::string& clear, const std::string& code,const std::string& cipher){
+void decrypt_txt(std::string& clear_txt, const std::string& code,const std::string& cipher_txt){
     //build reverse codebook
     std::map<char, char> codebook{};
     for(char c = 'a'; c <= 'z'; c++)
         codebook[code[c-'a']] = c;
 
     //decryption
+    std::string cipher = cipher_txt;
     for (int i = 0; i < cipher.length(); i++){
+        bool is_upper = std::isupper(cipher[i]);
+        if(is_upper)
+            cipher[i] = std::tolower(cipher[i]);
+
         auto search = codebook.find(cipher[i]);
-        if (search != codebook.end())
-            clear += search->second;
+        if (search != codebook.end()){
+            if(is_upper)
+                clear_txt += std::toupper(search->second);
+            else
+                clear_txt += search->second;
+        }
         else
-            clear += cipher[i];
+            clear_txt += cipher[i];
     }
 }
 
