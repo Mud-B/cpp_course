@@ -50,10 +50,23 @@ private:
 class History{
 public:
     History() = default;
-    ~History();
+    ~History(){
+        mRecord.clear();
+        mRecord.shrink_to_fit();
+    }
+    void add(std::string room){
+        mRecord.push_back(room);
+        ++mTotalCount;
+    }
+    int getCount(){
+        return mTotalCount;
+    }
+    std::string getRecord(int n){
+        return mRecord[n];
+    }
 
 private:
-    int mRoomNum;
+    int mTotalCount;
     std::vector<std::string> mRecord;
 };
 
