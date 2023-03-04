@@ -1,13 +1,24 @@
 #ifndef COMMON_H
 #define COMMON_H
+#include <iostream>
 #include <string>
 #include <vector>
+#include <cstdlib>
+#include <time.h>
+
+bool probality(double v) {
+    srand(time(0));
+    double prob = rand() % 100;
+    return prob < v;
+}
 
 class Role
 {
 public:
+    Role() = delete;
     Role(std::string name, int hp, int attack)
         : mName(name)
+        , mHp(hp)
         , mHpMax(hp)
         , mAttack(attack){}
     ~Role();
@@ -33,18 +44,27 @@ private:
     int mAttack;
 };
 
-class Room
+enum class ROOMNAME{
+    CAMP,
+    GENERALROOM,
+    TRAPROOM,
+    BOSSROOM,
+    WEAPONROOM
+};
+
+class RoomBase
 {
 public:
-    Room(std::string name)
+    RoomBase();
+    RoomBase(ROOMNAME name)
         : mName(name){}
-    ~Room();
-    virtual void enterEvent() = 0;
-    virtual void fightEvent() = 0;
-    virtual void reward() = 0;
+     ~RoomBase();
+    void enterEvent();
+    void fightEvent();
+    void reward();
 
 private:
-    std::string mName;
+    ROOMNAME mName;
 };
 
 class History{
