@@ -6,20 +6,18 @@ class Advanturer : public Role
 {
 public:
 	Advanturer()
-		: Role("advanturer", 100, 10)
+		: Role("Advanturer", 100, 10)
 		, mExp(0)
 		, mExpMax(10){}
-	Advanturer(std::string name="advanturer", int hp=100, int attack=10)
-		: Role(name, hp, attack)
-		, mExp(0)
-		, mExpMax(10){}
-	Advanturer(std::string name="advanturer", int hp=100, int attack=10, int max=10)
-		: Role(name, hp, attack)
-		, mExp(0)
-		, mExpMax(max){}
 	void heal() {
 		int value = 100 - getHp();
+		std::cout << "heal " << value << "hp\n";
 		setHp(value);
+	}
+	void heal(int v) {
+		int value = v + getHp();
+		value >= 100 ? heal() : setHp(value);
+		std::cout << "heal " << value << "hp\n";
 	}
 	void gainExp(int exp) {
 		mExp += exp;
@@ -27,11 +25,14 @@ public:
 			heal();
 			mExp -= mExpMax;
 		}
+		std::cout << "Gain " << exp << " point of Exp, current exp("
+			<< mExp << "/" << mExpMax << ")\n";
 	}
 
 private:
 	int mExp;
 	int mExpMax;
+	unsigned char mBuffList[4] = {0};
 };
 
 #endif

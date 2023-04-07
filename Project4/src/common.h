@@ -6,11 +6,6 @@
 #include <cstdlib>
 #include <time.h>
 
-bool probality(double v) {
-    srand(time(0));
-    double prob = rand() % 100;
-    return prob < v;
-}
 
 class Role
 {
@@ -21,7 +16,7 @@ public:
         , mHp(hp)
         , mHpMax(hp)
         , mAttack(attack){}
-    ~Role();
+//    ~Role();
     int getHp(){
         return mHp;
     }
@@ -58,7 +53,7 @@ public:
     RoomBase();
     RoomBase(ROOMNAME name)
         : mName(name){}
-     ~RoomBase();
+//     ~RoomBase();
     void enterEvent();
     void fightEvent();
     void reward();
