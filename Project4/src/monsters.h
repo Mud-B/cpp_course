@@ -5,11 +5,12 @@
 class Monster : public Role
 {
 public:
-	Monster(int& index)
-		: Role("Monster", 20, 5)
+	Monster(int& index, int hp, int attack)
+		: Role("Monster", hp, attack)
 		, mIndex(index)
 	{
-		std::cout << "Meet Monster" << index << " (20/20)\n";
+		std::cout << "Meet Monster" << index << " ("
+				  << hp << "/" << hp << "), dmage: " << attack << "\n";
 	}
 	
 	int getIndex(){

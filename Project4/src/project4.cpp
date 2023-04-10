@@ -14,19 +14,34 @@ ROOMNAME selectRoom() {
 }
 
 int main() {
-	Advanturer adv;
-	int n=10;
-	while(n--){
+	Advanturer adv;	
+	while(!adv.isDead()){
 		switch(selectRoom()){
-			case ROOMNAME::GENERALROOM:GeneralRoom g;g.enterEvent(&adv);g.fightEvent(&adv);g.reward(&adv);break;
+			case ROOMNAME::CAMP:{
+				Camp c; 
+				c.enterEvent(&adv); 
+				break;
+			} 
+			case ROOMNAME::GENERALROOM:{
+				GeneralRoom g;
+				g.enterEvent(&adv);
+				if(adv.isDead())break;
+				g.fightEvent(&adv);
+				if(adv.isDead())break;
+				g.reward(&adv);
+				break;
+			}
+			case ROOMNAME::TRAPROOM:{
+				TrapRoom t;
+				t.enterEvent(&adv);
+				if(adv.isDead())break;
+				t.fightEvent(&adv);
+				if(adv.isDead())break;
+				t.reward(&adv);
+				break;
+			}
 		}
 		sleep(1);
 	}
-	
-//	while(!adv.isDead()){
-//		switch(selectRoom()){
-//			case ROOMNAME::GENERALROOM:GeneralRoom g;g.enterEvent(&adv);g.fightEvent(&adv);g.reward(&adv);break;
-//		}
-//	}
 	std::cout << "Advanturer is dead\n";
 }

@@ -2,6 +2,13 @@
 #define ADVANTURER_H
 #include "common.h"
 
+enum Buff{
+	HEAL = 0, 
+	DMAGE = 1, 
+	CLEAR = 2, 
+	RECORD = 3
+};
+
 class Advanturer : public Role
 {
 public:
@@ -11,13 +18,11 @@ public:
 		, mExpMax(10){}
 	void heal() {
 		int value = 100 - getHp();
-		std::cout << "heal " << value << "hp\n";
 		setHp(value);
 	}
 	void heal(int v) {
 		int value = v + getHp();
-		value >= 100 ? heal() : setHp(value);
-		std::cout << "heal " << value << "hp\n";
+		value >= 100 ? heal() : setHp(v);
 	}
 	void gainExp(int exp) {
 		mExp += exp;
@@ -28,11 +33,37 @@ public:
 		std::cout << "Gain " << exp << " point of Exp, current exp("
 			<< mExp << "/" << mExpMax << ")\n";
 	}
+	int getBuff(Buff b){
+		return mBuffList[b];
+	}
+	std::string getBuff(){
+		std::string s="";
+		for(auto buff : mBuffList)
+			s += std::to_string(buff)+" ";
+		return s;
+	}
+	void setBuff(Buff b, int value){
+		mBuffList[b] = value;
+	}
+	void dealBuff(){
+		if(mBuffList[Buff::HEAL]){
+			heal(5);
+			mBuffList[Buff::HEAL]--;
+		}
+		if(mBuffList[Buff::DMAGE]){
+			setHp(-2);
+			mBuffList[Buff::DMAGE]--;
+		}
+		if(mBuffList[Buff::CLEAR]){
+			mBuffList[Buff::DMAGE] = 0;
+			mBuffList[Buff::CLEAR] = 0;
+		}
+	}
 
 private:
 	int mExp;
 	int mExpMax;
-	unsigned char mBuffList[4] = {0};
+	std::vector<int> mBuffList = {0,0,0,0};
 };
 
 #endif

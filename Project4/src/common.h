@@ -23,6 +23,9 @@ public:
     void setHp(int hp){
         mHp += hp;
     }
+	int getHpMax(){
+        return mHpMax;
+    }
     bool isDead(){
         return mHp <= 0;
     }
@@ -39,7 +42,7 @@ private:
     int mAttack;
 };
 
-enum class ROOMNAME{
+enum ROOMNAME{
     CAMP,
     GENERALROOM,
     TRAPROOM,
