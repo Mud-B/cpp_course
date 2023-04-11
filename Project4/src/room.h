@@ -1,4 +1,5 @@
 #include <iostream>
+#include <climits>
 #include "common.h"
 #include "advanturer.h"
 #include "monsters.h"
@@ -14,7 +15,8 @@ class Camp : public RoomBase
 public:
 	Camp()
 		: RoomBase(ROOMNAME::CAMP){
-		std::cout << "Get into camp" << std::endl;
+		std::cout << "=======================================\n"
+				  << "Get into camp" << std::endl;
 	}
 	void enterEvent(Advanturer* adv) {
 		std::cout << "Trigger Event: Heal the advanturer, current hp(100/100)"
@@ -31,7 +33,7 @@ class GeneralRoom : public RoomBase
 public:
 	GeneralRoom()
 		: RoomBase(ROOMNAME::GENERALROOM) {
-		std::cout << "========================================\n"
+		std::cout << "=======================================\n"
 				  << "Get into general room" << std::endl;
 	}
 	void enterEvent(Advanturer* adv) {
@@ -59,8 +61,20 @@ public:
 		// Fighting
 		std::cout << "Start fighting:\n";
 		while(!adv->isDead() && mTotalMonster!=mDeadMonster){
+			// select monster with highest attack
+			int maxAttack = INT_MIN;
+			int index = -1;
+			for(auto monster : monsters){
+				if(monster.isDead())continue;
+				if(monster.getAttack() > maxAttack){
+					maxAttack = monster.getAttack();
+					index = monster.getIndex();
+				}
+			}
+			if(index == -1)		// can't find monster
+				break;
+			auto& attackedMonster = monsters[index-1];
 			// advanturer attack first
-			auto& attackedMonster = monsters[mDeadMonster];
 			attackedMonster.getHp() - adv->getAttack() > 0 ? 
 					attackedMonster.setHp(-adv->getAttack()) :
 					attackedMonster.setHp(-attackedMonster.getHp());
@@ -97,7 +111,7 @@ class TrapRoom : public RoomBase
 public:
 	TrapRoom()
 		: RoomBase(ROOMNAME::TRAPROOM){
-		std::cout << "========================================\n"
+		std::cout << "======================================\n"
 				  << "Get into trap room" << std::endl;
 	}
 	void enterEvent(Advanturer* adv) {
@@ -123,8 +137,20 @@ public:
 		// Fighting
 		std::cout << "Start fighting:\n";
 		while(!adv->isDead() && mTotalMonster!=mDeadMonster){
+			// select monster with highest attack
+			int maxAttack = INT_MIN;
+			int index = -1;
+			for(auto monster : monsters){
+				if(monster.isDead())continue;
+				if(monster.getAttack() > maxAttack){
+					maxAttack = monster.getAttack();
+					index = monster.getIndex();
+				}
+			}
+			if(index == -1)		// can't find monster
+				break;
+			auto& attackedMonster = monsters[index-1];
 			// advanturer attack first
-			auto& attackedMonster = monsters[mDeadMonster];
 			attackedMonster.getHp() - adv->getAttack() > 0 ? 
 					attackedMonster.setHp(-adv->getAttack()) :
 					attackedMonster.setHp(-attackedMonster.getHp());
