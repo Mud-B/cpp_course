@@ -1,8 +1,9 @@
-#include <iostream>
-#include <climits>
+#ifndef ROOM_H
+#define ROOM_H
 #include "common.h"
 #include "advanturer.h"
 #include "monsters.h"
+#include <climits>
 
 auto probality = [](double v) -> bool{
 	srand(time(0));
@@ -19,7 +20,7 @@ public:
 				  << "Get into camp" << std::endl;
 	}
 	void enterEvent(Advanturer* adv) {
-		std::cout << "Trigger Event: Heal the advanturer, current hp(100/100)"
+		std::cout << "Trigger Event: Heal the advanturer"
 				  << std::endl;
 		adv->heal();
 		adv->dealBuff();
@@ -181,3 +182,5 @@ private:
 	unsigned char mTotalMonster = 0;
 	unsigned char mDeadMonster = 0;
 };
+
+#endif

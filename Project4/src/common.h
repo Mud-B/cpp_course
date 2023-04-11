@@ -1,11 +1,10 @@
 #ifndef COMMON_H
 #define COMMON_H
 #include <iostream>
+#include <iomanip>
 #include <string>
 #include <vector>
-#include <cstdlib>
-#include <time.h>
-
+#include <unordered_map>
 
 class Role
 {
@@ -68,24 +67,44 @@ private:
 class History{
 public:
     History() = default;
-    ~History(){
-        mRecord.clear();
-        mRecord.shrink_to_fit();
+//    virtual ~History();
+    void add(ROOMNAME room){
+        mRecord[room]++;
     }
-    void add(std::string room){
-        mRecord.push_back(room);
-        ++mTotalCount;
-    }
-    int getCount(){
-        return mTotalCount;
-    }
-    std::string getRecord(int n){
-        return mRecord[n];
+    void printRecord(){
+		std::cout << std::setfill('-') << std::setw(60) <<"\n"
+				  << "Advanturer is dead, Pass Total " << getTotal() << " rooms, ";
+        for(auto& r : mRecord){
+			switch(r.first){
+				case ROOMNAME::CAMP: 
+					std::cout << "CAMP: " << r.second << ", ";break;
+				case ROOMNAME::GENERALROOM: 
+					std::cout << "GENERALROOM: " << r.second << ", ";break;
+				case ROOMNAME::TRAPROOM: 
+					std::cout << "TRAPROOM: " << r.second << ", ";break;
+				case ROOMNAME::BOSSROOM: 
+					std::cout << "BOSSROOM: " << r.second << ", ";break;
+				case ROOMNAME::WEAPONROOM: 
+					std::cout << "WEAPONROOM: " << r.second << std::endl;break;
+			}
+		}
     }
 
 private:
-    int mTotalCount;
-    std::vector<std::string> mRecord;
+    std::unordered_map<ROOMNAME, int> mRecord = {
+		{ROOMNAME::WEAPONROOM, 0},
+		{ROOMNAME::BOSSROOM, 0},
+		{ROOMNAME::TRAPROOM, 0},
+		{ROOMNAME::GENERALROOM, 0},
+		{ROOMNAME::CAMP, 0}
+	};
+	int getTotal(){
+		int total = 0;
+		for(auto& r : mRecord){
+			total += r.second;
+		}
+        return total;
+    }
 };
 
 #endif
