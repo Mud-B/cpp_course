@@ -45,6 +45,12 @@ int main() {
 			}
 			case ROOMNAME::BOSSROOM:{
 				hi.add(ROOMNAME::BOSSROOM);
+				BossRoom b;
+				b.enterEvent(&adv);
+				if(adv.isDead())break;
+				b.fightEvent(&adv);
+				if(adv.isDead())break;
+				b.reward(&adv);
 				break;
 			}
 			case ROOMNAME::WEAPONROOM:{

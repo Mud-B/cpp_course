@@ -49,14 +49,19 @@ public:
 		if(mBuffList[Buff::HEAL]){
 			heal(5);
 			mBuffList[Buff::HEAL]--;
+			std::cout << "Buff-1: Advanturer heal 5hp, current hp(" 
+					  << getHp() << "/100)" << std::endl;
 		}
 		if(mBuffList[Buff::DMAGE]){
 			setHp(-2);
 			mBuffList[Buff::DMAGE]--;
+			std::cout << "Buff-2: Advanturer lost 2hp, current hp(" 
+					  << getHp() << "/100)" << std::endl;
 		}
 		if(mBuffList[Buff::CLEAR]){
 			mBuffList[Buff::DMAGE] = 0;
 			mBuffList[Buff::CLEAR] = 0;
+			std::cout << "Buff-3: Continuous damage effect removed\n";
 		}
 	}
 

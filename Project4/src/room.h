@@ -183,4 +183,59 @@ private:
 	unsigned char mDeadMonster = 0;
 };
 
+class BossRoom : public RoomBase
+{
+public:
+	BossRoom()
+		: RoomBase(ROOMNAME::BOSSROOM){
+		std::cout << "======================================\n"
+				  << "Get into boss room" << std::endl;
+	}
+	void enterEvent(Advanturer* adv) {
+		adv->setBuff(Buff::CLEAR, 1);
+		adv->dealBuff();
+		adv->heal(20);
+		std::cout << "Trigger Event: Advanturer heal 20hp, current hp(" 
+				  << adv->getHp() << "/100)" << std::endl
+				  << "current buff: " << adv->getBuff() << "\n";
+	}
+	void fightEvent(Advanturer* adv){
+		// Construct monster
+		srand(time(0));
+		Boss bo;
+		// Fighting
+		std::cout << "Start fighting:\n";
+		while(!adv->isDead() && !bo.isDead()){
+			// advanturer attack first
+			bo.getHp() - adv->getAttack() > 0 ? 
+					bo.setHp(-adv->getAttack()) :
+					bo.setHp(-bo.getHp());
+			std::cout << "Advanturer attack Boss, hit 10 dmage, "
+					  << "Boss(" << bo.getHp() << "/"
+					  << bo.getHpMax() << ")\n";
+			if(bo.isDead()){
+				std::cout << "Boss is dead\n";
+				break;
+			}
+			// boss attack
+			if(bo.getHp() <= 10){
+				bo.reborn();
+				continue;
+			}
+			adv->getHp() - bo.getAttack() > 0 ?
+				adv->setHp(-bo.getAttack()) :
+				adv->setHp(-adv->getHp());
+			std::cout << "Boss attack Advanturer, hit " 
+					  << bo.getAttack() << " dmage, "
+					  << "Advanturer(" << adv->getHp() << "/100)\n";
+			bo.attackUp();
+			if(adv->isDead()) break;
+		}
+	}
+	void reward(Advanturer* adv){
+		adv->gainExp(5);
+	}
+private:
+};
+
 #endif
