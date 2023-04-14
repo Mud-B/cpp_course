@@ -200,7 +200,7 @@ public:
 				  << "current buff: " << adv->getBuff() << "\n";
 	}
 	void fightEvent(Advanturer* adv){
-		// Construct monster
+		// Construct boss
 		srand(time(0));
 		Boss bo;
 		// Fighting
